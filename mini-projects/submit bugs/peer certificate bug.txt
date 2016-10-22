@@ -1,0 +1,47 @@
+When you run the submit script, to fix the error "urlread: peer certificate..." issue, and also some other types of "urlread" errors, do the following:
+
+This patch is for Octave only. No patches are required for MATLAB users.
+
+Note 1: If after you apply the patch, you get an error message like "structure has no member: part feedbacks", then re-enter the patch by hand-typing it in - there is probably a problem with how your text editor (for example the TextEdit program in OS X) handled copy-and-paste of the single-quote characters.
+
+Note 2: Do not use Wordpad as a script editor. It is a word processor and can cause all manner of problems in your script files. Use the GUI editor in Octave or MATLAB, or use a plain-text editor such as Notepad++.
+
+Note 3: Be sure you use "sprintf(...)" in the modification, not "printf(...)"
+
+---------------
+
+For Windows users:
+
+1) In the exercise /lib folder, edit and save the file submitWithConfiguration.m, changing line 66 from this:
+
+
+
+1
+responseBody = urlread(submissionUrl, 'post', params);
+to this:
+
+
+
+1
+[code, responseBody] = system(sprintf('echo jsonBody=%s | curl -k -X POST 
+    -d @- %s', body, submissionUrl));
+2) Then restart Octave.
+
+----------------
+
+For OS X, linux, and ubuntu users:
+
+1) In the exercise /lib folder, edit and save the file submitWithConfiguration.m, changing line 66 from this:
+
+
+
+1
+responseBody = urlread(submissionUrl, 'post', params);
+to this:
+
+
+
+1
+[code, responseBody] = system(sprintf('echo ''jsonBody=%s'' | curl -k -X 
+    POST -d @- %s', body, submissionUrl));
+2) Then restart Octave.
